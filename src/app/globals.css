@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --gold: #d4a017;
+  --gold-light: #f0c040;
+  --navy: #0f1729;
+  --navy-light: #1a2540;
+}
+
+body {
+  background: var(--navy);
+  color: #e2e8f0;
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+/* 오행 색상 */
+.element-wood  { color: #4ade80; }
+.element-fire  { color: #f87171; }
+.element-earth { color: #fbbf24; }
+.element-metal { color: #94a3b8; }
+.element-water { color: #60a5fa; }
+
+.gold-gradient {
+  background: linear-gradient(135deg, #d4a017, #f0c040, #d4a017);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.saju-card {
+  background: rgba(26, 37, 64, 0.8);
+  border: 1px solid rgba(212, 160, 23, 0.2);
+  border-radius: 16px;
+}
+
+.pillar-box {
+  border-radius: 12px;
+  border: 2px solid;
+  transition: transform 0.2s;
+}
+.pillar-box:hover { transform: translateY(-2px); }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+.star { animation: twinkle 2s infinite; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.4); border-radius: 3px; }
+
+.chat-bubble-user {
+  background: linear-gradient(135deg, #4c1d95, #6d28d9);
+  border-radius: 18px 18px 4px 18px;
+}
+.chat-bubble-ai {
+  background: rgba(26, 37, 64, 0.9);
+  border: 1px solid rgba(212,160,23,0.3);
+  border-radius: 18px 18px 18px 4px;
+}
+
+.prose-saju h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f0c040;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(212,160,23,0.3);
+}
+.prose-saju p {
+  line-height: 1.8;
+  color: #cbd5e1;
+  margin-bottom: 0.75rem;
+}
+.prose-saju strong { color: #fbbf24; }
+
+.daeun-item { transition: all 0.3s; }
+.daeun-item.active {
+  border-color: #f0c040 !important;
+  background: rgba(212,160,23,0.1);
+}
+.daeun-item:hover { transform: translateY(-2px); }
+
+@keyframes pulse-gold {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+.loading-gold { animation: pulse-gold 1.5s ease-in-out infinite; }
