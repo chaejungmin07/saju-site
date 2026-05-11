@@ -35,7 +35,10 @@ export default function AIAnalysis({ sajuData, name }: Props) {
         body: JSON.stringify({ sajuData, name }),
       });
 
-      if (!res.ok) throw new Error('API 오류');
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`HTTP ${res.status}: ${errText}`);
+      }
 
       const reader = res.body!.getReader();
       const decoder = new TextDecoder();
@@ -47,8 +50,8 @@ export default function AIAnalysis({ sajuData, name }: Props) {
         accumulated += decoder.decode(value, { stream: true });
         setAnalysis(accumulated);
       }
-    } catch {
-      setError('GEMINI_API_KEY를 Vercel 환경변수에 설정해주세요. (무료 발급: aistudio.google.com)');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'GEMINI_API_KEY를 Vercel 환경변수에 설정해주세요.');
     } finally {
       setIsLoading(false);
     }
