@@ -1,17 +1,17 @@
-import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextRequest } from 'next/server';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export async function POST(req: NextRequest) {
   const { sajuData, name } = await req.json();
 
-  const systemPrompt = `당신은 수십 년 경력의 대한민국 최고 사주명리 전문가입니다.
+  const prompt = `당신은 수십 년 경력의 대한민국 최고 사주명리 전문가입니다.
 사주팔자(四柱八字), 천간지지(天干地支), 오행(五行), 십성(十星), 십이운성(十二運星), 대운(大運), 세운(歲運)에 대한 깊은 지식을 보유하고 있습니다.
 분석할 때는 전문적이지만 이해하기 쉬운 언어로 설명하세요. 긍정적인 면을 강조하되, 주의해야 할 점도 솔직하게 말씀해 주세요.
-각 섹션은 구체적이고 디테일하게 작성해 주세요. 단순한 일반론이 아닌, 이 사람의 사주 데이터에 기반한 맞춤 분석을 해주세요.`;
+각 섹션은 구체적이고 디테일하게 작성해 주세요.
 
-  const userPrompt = `다음 사주 데이터를 분석해주세요.
+다음 사주 데이터를 분석해주세요.
 ${name ? `이름/닉네임: ${name}` : ''}
 
 ${sajuData}
@@ -45,21 +45,15 @@ ${sajuData}
 ## 9. 조언과 개운법
 이 사주가 더 빛나기 위한 구체적인 조언, 보완해야 할 오행, 유리한 방향·색·숫자를 알려주세요.`;
 
-  const stream = await client.messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 4000,
-    system: systemPrompt,
-    messages: [{ role: 'user', content: userPrompt }],
-    stream: true,
-  });
+  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const result = await model.generateContentStream(prompt);
 
   const encoder = new TextEncoder();
   const readable = new ReadableStream({
     async start(controller) {
-      for await (const event of stream) {
-        if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-          controller.enqueue(encoder.encode(event.delta.text));
-        }
+      for await (const chunk of result.stream) {
+        const text = chunk.text();
+        if (text) controller.enqueue(encoder.encode(text));
       }
       controller.close();
     },

@@ -48,7 +48,7 @@ export default function AIAnalysis({ sajuData, name }: Props) {
         setAnalysis(accumulated);
       }
     } catch {
-      setError('ANTHROPIC_API_KEY를 .env.local에 설정해주세요. (API 키 발급: console.anthropic.com)');
+      setError('GEMINI_API_KEY를 Vercel 환경변수에 설정해주세요. (무료 발급: aistudio.google.com)');
     } finally {
       setIsLoading(false);
     }
@@ -89,8 +89,8 @@ export default function AIAnalysis({ sajuData, name }: Props) {
           <p className="text-xs" style={{ color: '#94a3b8' }}>{error}</p>
           <div className="mt-3 p-3 rounded-lg text-xs font-mono"
             style={{ background: 'rgba(15,23,41,0.8)', color: '#4ade80' }}>
-            # .env.local 파일에 추가<br />
-            ANTHROPIC_API_KEY=sk-ant-api03-...
+            # Vercel 환경변수에 추가<br />
+            GEMINI_API_KEY=AIzaSy...
           </div>
           <button
             onClick={startAnalysis}
