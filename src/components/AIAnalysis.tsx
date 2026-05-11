@@ -93,7 +93,7 @@ export default function AIAnalysis({ sajuData, name }: Props) {
           <div className="mt-3 p-3 rounded-lg text-xs font-mono"
             style={{ background: 'rgba(15,23,41,0.8)', color: '#4ade80' }}>
             # Vercel 환경변수에 추가<br />
-            GEMINI_API_KEY=AIzaSy...
+            GROQ_API_KEY=gsk_...
           </div>
           <button
             onClick={startAnalysis}
