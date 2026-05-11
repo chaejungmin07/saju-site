@@ -46,7 +46,7 @@ ${sajuData}
 이 사주가 더 빛나기 위한 구체적인 조언, 보완해야 할 오행, 유리한 방향·색·숫자를 알려주세요.`;
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     const result = await model.generateContentStream(prompt);
 
     const encoder = new TextEncoder();
